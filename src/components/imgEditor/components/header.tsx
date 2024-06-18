@@ -63,7 +63,7 @@ export default function ImgHeader({
                 component="label"
                 title="Upload file"
                 sx={{
-                  color: "var(--text)",
+                  color: "primary",
                   paddingTop: 0,
                   paddingBottom: 0,
                 }}

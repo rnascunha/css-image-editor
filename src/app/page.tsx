@@ -2,30 +2,17 @@
 
 import styles from "./page.module.css";
 
-import ThemeSwicher from "@/components/theme/themeSwicher";
 
-import {
-  AppBar,
-  Box,
-  Button,
-  IconButton,
-  Toolbar,
-  Typography,
-} from "@mui/material";
-import MenuIcon from "@mui/icons-material/Menu";
+import { Box } from "@mui/material";
 import { useState } from "react";
 import NavBar from "@/components/navbar/navbar";
-import ImageEditor from "@/components/imgEditor/imageEditor";
+import ImageEditorComponent from "./editor";
 
 const drawerWidth = 240;
 const navItems = ["Home", "About", "Contact"];
 
 export default function PageHome() {
   const [mobileOpen, setMobileOpen] = useState(false);
-
-  const handleDrawerToggle = () => {
-    setMobileOpen((prevState) => !prevState);
-  };
 
   return (
     <Box
@@ -37,7 +24,7 @@ export default function PageHome() {
     >
       <NavBar />
       <Box sx={{ display: "flex", p: 1, flex: 1, width: "100%" }}>
-        <ImageEditor />
+        <ImageEditorComponent />
       </Box>
     </Box>
   );
