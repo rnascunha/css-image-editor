@@ -1,0 +1,30 @@
+.container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.commands_image_wrapper {
+  flex: 1;
+  display: flex;
+  gap: 10px;
+}
+
+.commands_wrapper {
+  position: relative;
+  width: 320px;
+  overflow: hidden auto;
+}
+
+@media (max-width: 768px) {
+  .commands_image_wrapper {
+    flex-direction: column-reverse;
+  }
+
+  .commands_wrapper {
+    width: 100%;
+    min-height: 200px;
+  }
+}
+
