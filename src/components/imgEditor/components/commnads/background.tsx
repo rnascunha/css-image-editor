@@ -1,9 +1,9 @@
 import React from "react";
 
-import type { BackgroundProps } from "../types";
+import type { BackgroundProps } from "../../types";
 import ImageFitCommand from "./imageFit";
-import { bgRepeatOpt } from "../constants";
-import { dense_size } from "./dense";
+import { bgRepeatOpt } from "../../constants";
+import { dense_size } from "../dense";
 
 import {
   Checkbox,

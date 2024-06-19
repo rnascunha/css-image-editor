@@ -3,8 +3,8 @@ import {
   Transforms,
   filterOptions,
   transformOptions,
-} from "../constants";
-import { dense_icon_size, dense_size } from "./dense";
+} from "../../constants";
+import { dense_icon_size, dense_size } from "../dense";
 
 import type { OptionDescription } from "@/components/menuOptions";
 import InputWithUnitStyled from "@/components/styled/inputWithUnit";

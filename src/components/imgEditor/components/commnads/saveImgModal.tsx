@@ -6,8 +6,8 @@ import { toJpeg, toPng } from "html-to-image";
 
 import { download } from "@/lib/download";
 
-import { download_processed_image } from "../export_html";
-import { ImageReference } from "../types";
+import { download_processed_image } from "../../export_html";
+import { ImageReference } from "../../types";
 
 import InputWithUnitStyled from "@/components/styled/inputWithUnit";
 

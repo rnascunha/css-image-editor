@@ -1,6 +1,7 @@
 import type {
   Filters,
   Transforms,
+  CSSs,
   objectFitOpt,
   bgRepeatOpt,
   CanvasSizesOptions,
@@ -14,6 +15,11 @@ export interface FilterValue {
 export interface TransformValue {
   key: Transforms;
   value: number | [number, number];
+}
+
+export interface CSSValue {
+  key: CSSs;
+  value: string;
 }
 
 export interface BackgroundProps {
@@ -36,6 +42,7 @@ export interface Props {
   background: BackgroundProps;
   filters: FilterValue[];
   transforms: TransformValue[];
+  css: CSSValue[];
   size: CanvasSizesOptions;
 }
 

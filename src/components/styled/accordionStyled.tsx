@@ -4,9 +4,7 @@ import {
   AccordionDetails,
   AccordionSummary,
   AccordionSummaryProps,
-  Theme,
 } from "@mui/material";
-import { ReactNode } from "react";
 
 const small_size = "36px";
 const medium_size = "64px";

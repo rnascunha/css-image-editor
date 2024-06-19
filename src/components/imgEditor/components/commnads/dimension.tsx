@@ -2,9 +2,9 @@ import { useEffect, useState } from "react";
 
 import { gcd } from "@/lib/math";
 
-import { CanvasSizesOptions } from "../constants";
-import { ImageReference } from "../types";
-import { dense_icon_size, dense_size } from "./dense";
+import { CanvasSizesOptions } from "../../constants";
+import { ImageReference } from "../../types";
+import { dense_icon_size, dense_size } from "../dense";
 
 import { Button, ButtonGroup, IconButton, Stack, TextField, Tooltip } from "@mui/material";
 

@@ -1,5 +1,5 @@
-import { defaultLimits, objectFitOpt } from "../constants";
-import { dense_size } from "./dense";
+import { defaultLimits, objectFitOpt } from "../../constants";
+import { dense_size } from "../dense";
 
 import {
   FormControl,

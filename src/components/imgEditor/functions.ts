@@ -1,9 +1,10 @@
-import { filterOptions, transformOptions } from "./constants";
+import { CSSs, filterOptions, transformOptions } from "./constants";
 import type {
   Props,
   BackgroundProps,
   FilterValue,
   TransformValue,
+  CSSValue,
 } from "./types";
 
 function makeThreeColorAndColorStyle(
@@ -47,7 +48,24 @@ export function makeBackgroundStyle(props: BackgroundProps, image: string) {
   };
 }
 
+export function makeCSSPropertyStyle(props: CSSValue[]) {
+  return props.reduce((acc, { key, value }) => {
+    if (value)
+      acc[key] = value;
+    return acc;
+  }, {} as Record<CSSs, string>);
+}
+
 export function makeImageStyle(props: Props) {
+  console.log({
+    objectFit: props.fit,
+    objectPosition: `${props.position[0]}% ${props.position[1]}%`,
+    transform: `translate(${props.translate[0]}px, ${
+      props.translate[1]
+    }px) scale(${props.zoom}) ${makeTrasformsStyle(props.transforms)}`,
+    filter: makeFiltersStyle(props.filters),
+    ...makeCSSPropertyStyle(props.css),
+  });
   return {
     objectFit: props.fit,
     objectPosition: `${props.position[0]}% ${props.position[1]}%`,
@@ -55,5 +73,6 @@ export function makeImageStyle(props: Props) {
       props.translate[1]
     }px) scale(${props.zoom}) ${makeTrasformsStyle(props.transforms)}`,
     filter: makeFiltersStyle(props.filters),
+    ...makeCSSPropertyStyle(props.css),
   };
 }
