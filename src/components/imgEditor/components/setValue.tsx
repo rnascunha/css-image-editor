@@ -7,11 +7,15 @@ import {
 import { dense_icon_size, dense_size } from "./dense";
 
 import type { OptionDescription } from "@/components/menuOptions";
-import { InputStyled } from "@/components/styled/inputStyled";
-import { SliderStyled } from "@/components/styled/sliderStyled";
 import InputWithUnitStyled from "@/components/styled/inputWithUnit";
 
-import { IconButton, InputAdornment, Stack } from "@mui/material";
+import {
+  IconButton,
+  InputAdornment,
+  Slider,
+  Stack,
+  TextField,
+} from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 
 type SetData = (index: number, value: number) => void;
@@ -45,27 +49,21 @@ export function SliderInputValue({
 }) {
   return (
     <Stack
-      spacing={2}
+      spacing={1}
       direction="row"
       sx={{ mb: 1, flex: 1 }}
       alignItems="center"
       title={config.name}
     >
       {config.icon}
-      <InputStyled
+      <TextField
         label={config.name}
         type="number"
         size={dense_size(dense)}
         value={value}
         sx={{
-          maxWidth: "12ch",
           minWidth: "10ch",
           marginLeft: 0,
-          "&.MuiFormControl-root.MuiTextField-root": {
-            WebkitFlex: "unset",
-            msFlex: "unset",
-            flex: "unset",
-          },
         }}
         inputProps={{
           step: config.step,
@@ -75,11 +73,6 @@ export function SliderInputValue({
         InputProps={{
           endAdornment: config.unit ? (
             <InputAdornment
-              sx={{
-                "& p": {
-                  color: "var(--text)",
-                },
-              }}
               position="end"
             >
               {config.unitSymbol ?? config.unit}
@@ -88,7 +81,7 @@ export function SliderInputValue({
         }}
         onChange={(ev) => setProps(index, +ev.target.value)}
       />
-      <SliderStyled
+      <Slider
         aria-label={config.name}
         value={value}
         size={dense_size(dense)}
@@ -101,9 +94,6 @@ export function SliderInputValue({
         }
       />
       <IconButton
-        sx={{
-          color: "var(--text)",
-        }}
         onClick={() => deleteProp(index)}
       >
         <DeleteIcon />
@@ -136,21 +126,14 @@ export function InputTwoValue({
       title={config.name}
     >
       {config.icon}
-      <InputStyled
+      <TextField
         label={`${config.name} X`}
         type="number"
         size={dense_size(dense)}
         value={value[0]}
         sx={{
-          width: "12ch",
           flex: 1,
-          minWidth: "10ch",
           marginLeft: 0,
-          "&.MuiFormControl-root.MuiTextField-root": {
-            WebkitFlex: "unset",
-            msFlex: "unset",
-            flex: "unset",
-          },
         }}
         inputProps={{
           step: config.step,
@@ -160,11 +143,6 @@ export function InputTwoValue({
         InputProps={{
           endAdornment: config.unit ? (
             <InputAdornment
-              sx={{
-                "& p": {
-                  color: "var(--text)",
-                },
-              }}
               position="end"
             >
               {config.unitSymbol ?? config.unit}
@@ -173,21 +151,14 @@ export function InputTwoValue({
         }}
         onChange={(ev) => setProps(index, +ev.target.value, 0)}
       />
-      <InputStyled
+      <TextField
         label={`${config.name} Y`}
         type="number"
         size={dense_size(dense)}
         value={value[1]}
         sx={{
-          width: "12ch",
           flex: 1,
-          minWidth: "10ch",
           marginLeft: 0,
-          "&.MuiFormControl-root.MuiTextField-root": {
-            WebkitFlex: "unset",
-            msFlex: "unset",
-            flex: "unset",
-          },
         }}
         inputProps={{
           step: config.step,
@@ -197,11 +168,6 @@ export function InputTwoValue({
         InputProps={{
           endAdornment: config.unit ? (
             <InputAdornment
-              sx={{
-                "& p": {
-                  color: "var(--text)",
-                },
-              }}
               position="end"
             >
               {config.unitSymbol ?? config.unit}
@@ -211,9 +177,6 @@ export function InputTwoValue({
         onChange={(ev) => setProps(index, +ev.target.value, 1)}
       />
       <IconButton
-        sx={{
-          color: "var(--text)",
-        }}
         onClick={() => deleteProp(index)}
       >
         <DeleteIcon />
@@ -254,9 +217,7 @@ export function InputThreeValueAndColor({
             size={dense_size(dense)}
             value={value[0]}
             sx={{
-              width: "12ch",
               flex: 1,
-              minWidth: "10ch",
               marginLeft: 0,
             }}
             inputProps={{
@@ -273,9 +234,7 @@ export function InputThreeValueAndColor({
             size={dense_size(dense)}
             value={value[1]}
             sx={{
-              width: "12ch",
               flex: 1,
-              minWidth: "10ch",
               marginLeft: 0,
             }}
             inputProps={{
@@ -294,9 +253,7 @@ export function InputThreeValueAndColor({
             size={dense_size(dense)}
             value={value[2]}
             sx={{
-              width: "12ch",
               flex: 1,
-              minWidth: "10ch",
               marginLeft: 0,
             }}
             inputProps={{
@@ -307,8 +264,8 @@ export function InputThreeValueAndColor({
             units="px"
             onChange={(ev) => setProps(index, +ev.target.value, 2)}
           />
-          <InputStyled
-            label={`Color`}
+          <TextField
+            label="Color"
             type="color"
             size={dense_size(dense)}
             value={value[3]}
@@ -320,12 +277,7 @@ export function InputThreeValueAndColor({
           />
         </Stack>
       </Stack>
-      <IconButton
-        sx={{
-          color: "var(--text)",
-        }}
-        onClick={() => deleteProp(index)}
-      >
+      <IconButton onClick={() => deleteProp(index)}>
         <DeleteIcon fontSize={dense_icon_size(dense)} />
       </IconButton>
     </Stack>

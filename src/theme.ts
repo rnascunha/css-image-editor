@@ -32,7 +32,7 @@ const colorTheme = (mode: PaletteMode) => ({
           },
           background: {
             default: "#fff",
-            soft: "#e5e5e5",
+            soft: "#f0f0f0",
           },
         }
       : {
@@ -40,7 +40,7 @@ const colorTheme = (mode: PaletteMode) => ({
           primary: { main: "#fff" },
           text: {
             primary: "#fff",
-            secondary: "#e5e5e5",
+            secondary: "#f0f0f0",
           },
           background: {
             default: "#0d0c22",

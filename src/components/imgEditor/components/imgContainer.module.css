@@ -5,7 +5,8 @@
   align-items: center;
   position: relative;
   overflow: hidden;
-  outline: 1px var(--bgSoft) solid;
+  outline-width: 1px;
+  outline-style: solid;
 }
 
 .stats_container {
@@ -51,7 +52,8 @@
 
 .container {
   position: relative;
-  outline: 1px var(--text) dashed;
+  outline-width: 1px;
+  outline-style: dashed;
   margin: auto; /* position at middle */
 
   overflow: hidden;
@@ -86,7 +88,8 @@
   justify-content: center;
   align-items: center;
   font-size: xx-large;
-  outline: 1px var(--text) dashed;
+  outline-width: 1px;
+  outline-style: dashed;
   outline-offset: -10px;
   transition: all 0.5s;
   text-align: center;
@@ -102,7 +105,6 @@
   height: 100%;
   overflow: hidden;
   z-index: -1;
-  background-color: var(--bgSoft);
   opacity: 0;
   transition: all 0.2s;
 

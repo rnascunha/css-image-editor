@@ -44,6 +44,7 @@ export interface ConfigProps {
   showInfo: boolean;
   optimizeImage: boolean;
   background_transparency_pattern: boolean;
+  expandOne: boolean;
 }
 
 type FunctionArg = Props | ((p: Props) => Props);

@@ -1,5 +1,6 @@
 import { uploadFile } from "@/lib/upload_file";
 
+import History from "../history";
 import {
   CanvasSizes,
   CanvasSizesOptions,
@@ -9,10 +10,9 @@ import { ConfigProps } from "../types";
 import { dense_icon_size, dense_size } from "./dense";
 
 import MenuOptions from "@/components/menuOptions";
-import { InputStyled } from "@/components/styled/inputStyled";
 import VisuallyHiddenInput from "@/components/styled/hiddenInput";
 
-import { IconButton, Stack, Switch } from "@mui/material";
+import { IconButton, Stack, Switch, TextField } from "@mui/material";
 
 import CloseIcon from "@mui/icons-material/Close";
 import OpenInBrowserIcon from "@mui/icons-material/OpenInBrowser";
@@ -21,6 +21,10 @@ import FormatSizeIcon from "@mui/icons-material/FormatSize";
 import InfoIcon from "@mui/icons-material/Info";
 import ViewCompactIcon from "@mui/icons-material/ViewCompact";
 import FlashOnIcon from "@mui/icons-material/FlashOn";
+
+import UndoIcon from "@mui/icons-material/Undo";
+import RedoIcon from "@mui/icons-material/Redo";
+import UnfoldMoreIcon from '@mui/icons-material/UnfoldMore';
 
 export interface ImageHeaderProps {
   image: string;
@@ -33,6 +37,8 @@ export interface ImageHeaderProps {
   ): void;
   upload_image(img: string, img_name: string): void;
   error(img: string): void;
+  undo?: () => void;
+  redo?: () => void;
 }
 
 export default function ImgHeader({
@@ -43,10 +49,12 @@ export default function ImgHeader({
   upload_image,
   error,
   setConfig,
+  undo,
+  redo,
 }: ImageHeaderProps) {
   return (
     <Stack direction="row" spacing="2px">
-      <InputStyled
+      <TextField
         size={dense_size(config.dense)}
         sx={{
           flex: 1,
@@ -87,7 +95,7 @@ export default function ImgHeader({
                 size={dense_size(config.dense)}
                 title="Remove image"
                 sx={{
-                  color: "var(--text)",
+                  color: "primary",
                   paddingTop: 0,
                   paddingBottom: 0,
                 }}
@@ -99,6 +107,12 @@ export default function ImgHeader({
           ),
         }}
       />
+      <IconButton onClick={undo} disabled={undo === undefined}>
+        <UndoIcon sx={{ p: 0.5 }} />
+      </IconButton>
+      <IconButton onClick={redo} disabled={redo === undefined}>
+        <RedoIcon sx={{ p: 0.5 }} />
+      </IconButton>
       <MenuOptions
         size={dense_size(config.dense)}
         options={{
@@ -125,6 +139,14 @@ export default function ImgHeader({
             icon: <ViewCompactIcon />,
             content: (
               <Switch checked={config.background_transparency_pattern} />
+            ),
+            autoclose: false,
+          },
+          expandOne: {
+            name: "Exapand One",
+            icon: <UnfoldMoreIcon />,
+            content: (
+              <Switch checked={config.expandOne} />
             ),
             autoclose: false,
           },

@@ -2,7 +2,12 @@ import styles from "./commands.module.css";
 
 import { useState } from "react";
 
-import type { ImageReference, Props, SetPropsType } from "../types";
+import type {
+  ConfigProps,
+  ImageReference,
+  Props,
+  SetPropsType,
+} from "../types";
 import {
   filterOptions,
   defaultLimits,
@@ -18,38 +23,55 @@ import ImageFitCommand from "./imageFit";
 import SaveImgModal from "./saveImgModal";
 import { dense_size } from "./dense";
 
-import { InputStyled } from "@/components/styled/inputStyled";
 import MenuOptions from "@/components/menuOptions";
 import DimensionCommand from "./dimension";
 import {
+  AccordionDetailsStyled,
   AccordionStyled,
   AccordionSummaryStyled,
 } from "@/components/styled/accordionStyled";
 
 import {
-  AccordionDetails,
   Box,
   Button,
   InputAdornment,
   Modal,
   Stack,
+  TextField,
+  Tooltip,
 } from "@mui/material";
 
 import AddIcon from "@mui/icons-material/Add";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
-export default function ImgCommands({
-  props,
-  setProps,
-  imgRef,
-  dense,
-}: {
+interface ImgCommandsProps {
   props: Props;
+  config: ConfigProps;
   setProps: SetPropsType;
   imgRef: ImageReference | null;
   dense: boolean;
-}) {
+}
+
+export default function ImgCommands({
+  props,
+  config,
+  setProps,
+  imgRef,
+  dense,
+}: ImgCommandsProps) {
   const [open, setOpen] = useState(false);
+  const [expanded, setExpanded] = useState<string[]>([]);
+
+  const panelChange =
+    (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
+      return config.expandOne
+        ? setExpanded(isExpanded ? [panel] : [])
+        : setExpanded((prev) =>
+            isExpanded ? [...prev, panel] : prev.filter((p) => p !== panel)
+          );
+    };
+
+  const panelExpand = (panel:string) => expanded.includes(panel);
 
   const optionsFilterCallback = (name: string) => {
     setProps((prev) => {
@@ -148,56 +170,62 @@ export default function ImgCommands({
 
   return (
     <Box className={styles.commands}>
-      <AccordionStyled>
+      <AccordionStyled
+        expanded={panelExpand("pdimension")}
+        onChange={panelChange("pdimension")}
+      >
         <AccordionSummaryStyled
-          expandIcon={
-            <ExpandMoreIcon
-              sx={{
-                color: "var(--text)",
-              }}
-            />
-          }
+          expandIcon={<ExpandMoreIcon />}
           aria-controls="dimension-content"
           id="dimension-header"
           size={dense_size(dense)}
         >
           Dimesion
         </AccordionSummaryStyled>
-        <AccordionDetails>
+        <AccordionDetailsStyled>
           <DimensionCommand
             dense={dense}
             size={props.size}
             imgRef={imgRef}
             setDimension={setDimension}
           />
-        </AccordionDetails>
+        </AccordionDetailsStyled>
       </AccordionStyled>
-      <fieldset className={styles.fieldset}>
-        <legend>Position</legend>
-        <ImageFitCommand
-          props={props}
-          update={(key, value) =>
-            setProps((prev) => ({ ...prev, [key]: value }))
-          }
-          dense={dense}
-        />
-      </fieldset>
-      <AccordionStyled>
+      <AccordionStyled
+        expanded={panelExpand("pposition")}
+        onChange={panelChange("pposition")}
+      >
         <AccordionSummaryStyled
-          expandIcon={
-            <ExpandMoreIcon
-              sx={{
-                color: "var(--text)",
-              }}
-            />
-          }
+          expandIcon={<ExpandMoreIcon />}
+          aria-controls="position-content"
+          id="position-header"
+          size={dense_size(dense)}
+        >
+          Position
+        </AccordionSummaryStyled>
+        <AccordionDetailsStyled>
+          <ImageFitCommand
+            props={props}
+            update={(key, value) =>
+              setProps((prev) => ({ ...prev, [key]: value }))
+            }
+            dense={dense}
+          />
+        </AccordionDetailsStyled>
+      </AccordionStyled>
+      <AccordionStyled
+        expanded={panelExpand("pbackground")}
+        onChange={panelChange("pbackground")}
+      >
+        <AccordionSummaryStyled
+          expandIcon={<ExpandMoreIcon />}
           aria-controls="background-content"
           id="background-header"
           size={dense_size(dense)}
         >
           Background
         </AccordionSummaryStyled>
-        <AccordionDetails>
+        <AccordionDetailsStyled>
           <BackgroundCommand
             props={props.background}
             dense={dense}
@@ -208,167 +236,203 @@ export default function ImgCommands({
               }))
             }
           />
-        </AccordionDetails>
+        </AccordionDetailsStyled>
       </AccordionStyled>
-      <fieldset className={styles.fieldset}>
-        <legend className={styles.filters_legend}>
-          <div>Transform</div>
-          <MenuOptions
-            options={transformOptions}
-            callback={optionsTransformCallback}
-            icon={<AddIcon sx={{ fontSize: "20px" }} />}
-          />
-        </legend>
-        <Stack direction="column">
-          <Stack
-            direction="row"
-            spacing={0.25}
+      <AccordionStyled
+        expanded={panelExpand("ptransform")}
+        onChange={panelChange("ptransform")}
+      >
+        <AccordionSummaryStyled
+          expandIcon={<ExpandMoreIcon />}
+          aria-controls="transform-content"
+          id="transform-header"
+          size={dense_size(dense)}
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          Transform
+        </AccordionSummaryStyled>
+        <AccordionDetailsStyled>
+          <Stack direction="column">
+            <Stack
+              direction="row"
+              spacing={0.25}
+              sx={{
+                justifyContent: "space-between",
+              }}
+            >
+              <TextField
+                label="X"
+                type="number"
+                size={dense_size(dense)}
+                value={props.translate[0]}
+                sx={{
+                  flex: 1,
+                }}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">px</InputAdornment>
+                  ),
+                }}
+                onChange={(ev) => {
+                  setProps({
+                    ...props,
+                    translate: [+ev.target.value, props.translate[1]],
+                  });
+                }}
+              />
+              <TextField
+                label="Y"
+                type="number"
+                size={dense_size(dense)}
+                value={props.translate[1]}
+                sx={{
+                  flex: 1,
+                }}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">px</InputAdornment>
+                  ),
+                }}
+                onChange={(ev) => {
+                  setProps({
+                    ...props,
+                    translate: [props.translate[0], +ev.target.value],
+                  });
+                }}
+              />
+              <TextField
+                label="Zoom"
+                type="number"
+                size={dense_size(dense)}
+                value={props.zoom}
+                sx={{
+                  minWidth: "8ch",
+                  flex: 0.8,
+                }}
+                inputProps={{
+                  ...defaultLimits.zoom,
+                }}
+                onChange={(ev) => {
+                  setProps({
+                    ...props,
+                    zoom: +ev.target.value,
+                  });
+                }}
+              />
+              <MenuOptions
+                options={transformOptions}
+                callback={optionsTransformCallback}
+                icon={<AddIcon sx={{ fontSize: "20px" }} />}
+              />
+            </Stack>
+            {props.transforms.length === 0 ? (
+              <div style={{ color: "grey", fontStyle: "italic" }}>
+                No tranfsforms added
+              </div>
+            ) : (
+              <ListTransform
+                items={props.transforms}
+                componentFunc={(idx, key, value) =>
+                  transformComponent(
+                    idx,
+                    key,
+                    value,
+                    setTransform,
+                    setTransformTwo,
+                    deleteTransform,
+                    dense
+                  )
+                }
+                update={(n) => setProps((prev) => ({ ...prev, transforms: n }))}
+              />
+            )}
+          </Stack>
+        </AccordionDetailsStyled>
+      </AccordionStyled>
+      <AccordionStyled
+        expanded={panelExpand("pfilter")}
+        onChange={panelChange("pfilter")}
+      >
+        <AccordionSummaryStyled
+          expandIcon={<ExpandMoreIcon />}
+          aria-controls="filter-content"
+          id="filter-header"
+          size={dense_size(dense)}
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            "& .MuiAccordionSummary-content.Mui-expanded": {
+              m: 0,
+            },
+          }}
+        >
+          Filter
+        </AccordionSummaryStyled>
+        <AccordionDetailsStyled>
+          <Box
             sx={{
-              justifyContent: "space-between",
+              display: "flex",
+              justifyContent: "flex-end",
             }}
           >
-            <InputStyled
-              label="X"
-              type="number"
-              size={dense_size(dense)}
-              value={props.translate[0]}
-              sx={{
-                maxWidth: "12ch",
-              }}
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment
-                    sx={{
-                      "& p": {
-                        color: "var(--text)",
-                      },
-                    }}
-                    position="end"
-                  >
-                    px
-                  </InputAdornment>
-                ),
-              }}
-              onChange={(ev) => {
-                setProps({
-                  ...props,
-                  translate: [+ev.target.value, props.translate[1]],
-                });
-              }}
+            <MenuOptions
+              options={filterOptions}
+              callback={optionsFilterCallback}
+              icon={
+                <Tooltip title="New Filter">
+                  <AddIcon sx={{ fontSize: "20px" }} />
+                </Tooltip>
+              }
             />
-            <InputStyled
-              label="Y"
-              type="number"
-              size={dense_size(dense)}
-              value={props.translate[1]}
-              sx={{
-                maxWidth: "12ch",
-              }}
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment
-                    sx={{
-                      "& p": {
-                        color: "var(--text)",
-                      },
-                    }}
-                    position="end"
-                  >
-                    px
-                  </InputAdornment>
-                ),
-              }}
-              onChange={(ev) => {
-                setProps({
-                  ...props,
-                  translate: [props.translate[0], +ev.target.value],
-                });
-              }}
-            />
-            <InputStyled
-              label="Zoom"
-              type="number"
-              size={dense_size(dense)}
-              value={props.zoom}
-              sx={{
-                width: "10ch",
-              }}
-              inputProps={{
-                ...defaultLimits.zoom,
-              }}
-              onChange={(ev) => {
-                setProps({
-                  ...props,
-                  zoom: +ev.target.value,
-                });
-              }}
-            />
+          </Box>
+          <Stack sx={{ mb: 1, flex: 1 }}>
+            {props.filters.length === 0 ? (
+              <div style={{ color: "grey", fontStyle: "italic" }}>
+                No filters added
+              </div>
+            ) : (
+              <ListFilter
+                items={props.filters}
+                componentFunc={(idx, key, value) =>
+                  filterComponent(
+                    idx,
+                    key,
+                    value,
+                    setFilter,
+                    setFilterFour,
+                    deleteFilter,
+                    dense
+                  )
+                }
+                update={(n) => setProps((prev) => ({ ...prev, filters: n }))}
+              />
+            )}
           </Stack>
-          {props.transforms.length === 0 ? (
-            <div style={{ color: "grey", fontStyle: "italic" }}>
-              No tranfsforms added
-            </div>
-          ) : (
-            <ListTransform
-              items={props.transforms}
-              componentFunc={(idx, key, value) =>
-                transformComponent(
-                  idx,
-                  key,
-                  value,
-                  setTransform,
-                  setTransformTwo,
-                  deleteTransform,
-                  dense
-                )
-              }
-              update={(n) => setProps((prev) => ({ ...prev, transforms: n }))}
-            />
-          )}
-        </Stack>
-      </fieldset>
-      <fieldset className={styles.fieldset}>
-        <legend className={styles.filters_legend}>
-          <div>Filters</div>
-          <MenuOptions
-            options={filterOptions}
-            callback={optionsFilterCallback}
-            icon={<AddIcon sx={{ fontSize: "20px" }} />}
-          />
-        </legend>
-        <Stack sx={{ mb: 1, flex: 1 }}>
-          {props.filters.length === 0 ? (
-            <div style={{ color: "grey", fontStyle: "italic" }}>
-              No filters added
-            </div>
-          ) : (
-            <ListFilter
-              items={props.filters}
-              componentFunc={(idx, key, value) =>
-                filterComponent(
-                  idx,
-                  key,
-                  value,
-                  setFilter,
-                  setFilterFour,
-                  deleteFilter,
-                  dense
-                )
-              }
-              update={(n) => setProps((prev) => ({ ...prev, filters: n }))}
-            />
-          )}
-        </Stack>
-      </fieldset>
+        </AccordionDetailsStyled>
+      </AccordionStyled>
       <Stack direction="row" spacing={1}>
         <Button
           sx={{
             flex: 1,
+            color: "btn",
+            borderColor: "btn",
+            '&:hover': {
+              borderColor: "btn",
+            }
           }}
           size={dense_size(dense)}
-          variant="contained"
+          variant="outlined"
           onClick={() =>
-            setProps((prev) => ({ ...defaultProps, image: prev.image }))
+            setProps((prev) => ({
+              ...defaultProps,
+              image: prev.image,
+              image_name: prev.image_name,
+            }))
           }
         >
           Reset
@@ -376,9 +440,10 @@ export default function ImgCommands({
         <Button
           sx={{
             flex: 1,
-            "&.Mui-disabled": {
-              backgroundColor: "var(--bgSoft)",
-            },
+            backgroundColor: "btn",
+            '&:hover': {
+              backgroundColor: "btn",
+            }
           }}
           size={dense_size(dense)}
           variant="contained"

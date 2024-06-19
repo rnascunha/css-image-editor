@@ -6,10 +6,7 @@ import { CanvasSizesOptions } from "../constants";
 import { ImageReference } from "../types";
 import { dense_icon_size, dense_size } from "./dense";
 
-import { InputStyled } from "@/components/styled/inputStyled";
-import { ButtonStyled } from "@/components/styled/buttonStyled";
-
-import { ButtonGroup, IconButton, Stack, Tooltip } from "@mui/material";
+import { Button, ButtonGroup, IconButton, Stack, TextField, Tooltip } from "@mui/material";
 
 import OpenInFullIcon from "@mui/icons-material/OpenInFull";
 import WidthFullIcon from "@mui/icons-material/WidthFull";
@@ -178,7 +175,7 @@ export default function DimensionCommand({
     <Stack spacing={1.25}>
       <ButtonGroup fullWidth>
         {predefinedDismensions.map((e, i) => (
-          <ButtonStyled
+          <Button
             key={i}
             size={dense_size(dense)}
             aria-label={e.title}
@@ -187,7 +184,7 @@ export default function DimensionCommand({
             <Tooltip disableFocusListener disableTouchListener title={e.title}>
               {e.icon}
             </Tooltip>
-          </ButtonStyled>
+          </Button>
         ))}
       </ButtonGroup>
       <Stack
@@ -201,7 +198,7 @@ export default function DimensionCommand({
         <Tooltip disableFocusListener disableTouchListener title="Aspect ratio">
           <AspectRatioIcon fontSize={dense_icon_size(dense)} />
         </Tooltip>
-        <InputStyled
+        <TextField
           size={dense_size(dense)}
           label="Horizontal"
           type="number"
@@ -233,7 +230,7 @@ export default function DimensionCommand({
               });
           }}
         />
-        <InputStyled
+        <TextField
           size={dense_size(dense)}
           label="Vertical"
           type="number"
@@ -272,13 +269,6 @@ export default function DimensionCommand({
         >
           <span>
             <IconButton
-              sx={{
-                color: "var(--text)",
-                "&.MuiIconButton-root.Mui-disabled": {
-                  color: "var(--text)",
-                  opacity: 0.5,
-                },
-              }}
               disabled={!syncAspectRatio}
               onClick={() => {
                 const aspectRatio = calcInstrisicImageAspectRatio(imgRef);
@@ -303,9 +293,6 @@ export default function DimensionCommand({
           title={syncAspectRatio ? "Syncing" : "Not syncing"}
         >
           <IconButton
-            sx={{
-              color: "var(--text)",
-            }}
             onClick={() => {
               setSyncAspectRatio((prev) => !prev);
               setDimension({
@@ -338,7 +325,7 @@ export default function DimensionCommand({
         >
           <ImageAspectRatioIcon fontSize={dense_icon_size(dense)} />
         </Tooltip>
-        <InputStyled
+        <TextField
           size={dense_size(dense)}
           label="Width"
           InputLabelProps={{ shrink: true }}
@@ -358,7 +345,7 @@ export default function DimensionCommand({
             if (validateSize(ev.target.value)) setDimension(newSize);
           }}
         />
-        <InputStyled
+        <TextField
           size={dense_size(dense)}
           label="Height"
           InputLabelProps={{ shrink: true }}
@@ -390,7 +377,7 @@ export default function DimensionCommand({
         <Tooltip disableFocusListener disableTouchListener title="Image size">
           <PhotoIcon fontSize={dense_icon_size(dense)} />
         </Tooltip>
-        <InputStyled
+        <TextField
           size={dense_size(dense)}
           label="Width"
           InputLabelProps={{ shrink: true }}
@@ -409,7 +396,7 @@ export default function DimensionCommand({
             if (validateSize(ev.target.value)) setDimension(newSize);
           }}
         />
-        <InputStyled
+        <TextField
           size={dense_size(dense)}
           label="Height"
           InputLabelProps={{ shrink: true }}

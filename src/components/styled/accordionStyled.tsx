@@ -1,36 +1,41 @@
-import styled from "@emotion/styled";
-import { Accordion, AccordionSummary, AccordionSummaryProps } from "@mui/material";
-
-type AccordionSummaryStyledProps = AccordionSummaryProps & {
-  size?: "small" | "medium";
-};
+import { styled } from "@mui/system";
+import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  AccordionSummaryProps,
+  Theme,
+} from "@mui/material";
+import { ReactNode } from "react";
 
 const small_size = "36px";
 const medium_size = "64px";
 
-export const AccordionStyled = styled(Accordion)({
-  backgroundColor: "var(--bg)",
-  color: "var(--text)",
-  boxShadow: "0px 2px 1px -1px rgb(from var(--text) r g b / 0.2), 0px 1px 1px 0px rgb(from var(--text) r g b / 0.14), 0px 1px 3px 0px rgb(from var(--text) r g b / 0.12)"
-})
+export const AccordionStyled = styled(Accordion)(({ theme }) => ({
+  backgroundColor: theme.palette.background.soft,
+  borderRadius: "5px",
+  "&.MuiAccordion-root.Mui-expanded": {
+    margin: 0,
+  },
+}));
+
+interface AccordionSummaryStyledProps extends AccordionSummaryProps {
+  size?: "small" | "medium";
+}
 
 export const AccordionSummaryStyled = styled(
-  ({ size, children, sx, ...props }: AccordionSummaryStyledProps) => (
-    <AccordionSummary
-      {...props}
-      sx={{
-        "&.MuiAccordionSummary-root": {
-          minHeight: size === "small" ? small_size : medium_size,
-          height: size === "small" ? small_size : medium_size,
-        },
-        "&.MuiAccordionSummary-root.Mui-expanded": {
-          minHeight: size === "small" ? small_size : medium_size,
-          height: size === "small" ? small_size : medium_size,
-        },
-        ...sx
-      }}
-    >
-      {children}
-    </AccordionSummary>
-  )
-)();
+  AccordionSummary
+)<AccordionSummaryStyledProps>(({ size }) => ({
+  "&.MuiAccordionSummary-root": {
+    minHeight: size === "small" ? small_size : medium_size,
+    height: size === "small" ? small_size : medium_size,
+  },
+  "&.MuiAccordionSummary-root.Mui-expanded": {
+    minHeight: size === "small" ? small_size : medium_size,
+    height: size === "small" ? small_size : medium_size,
+  },
+}));
+
+export const AccordionDetailsStyled = styled(AccordionDetails)({
+  padding: "8px 8px 8px",
+});

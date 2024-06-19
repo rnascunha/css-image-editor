@@ -27,16 +27,11 @@ export const InputWithUnit = styled(
       InputProps={{
         endAdornment:
           typeof units === "string" ? (
-            <InputAdornment position="end" sx={{
-              '& p.MuiTypography-root': {
-                color: "var(--text)",
-              },
-            }}>{units}</InputAdornment>
+            <InputAdornment position="end">{units}</InputAdornment>
           ) : (
             <FormControl>
               <Select
                 sx={{
-                  color: "var(--text)",
                   paddingRight: 0,
                   "& svg": {
                     display: "none",
@@ -72,21 +67,12 @@ export const InputWithUnit = styled(
 const InputWithUnitStyled = styled(InputWithUnit)({
   '&': {
     height: "100%",
-    backgroundColor: "var(--bgSoft)",
     borderRadius: "4px"
   },
-  '& input': {
-    color: "var(--text)"
-  },
-  "& .MuiInputBase-input.Mui-disabled": {
-    WebkitTextFillColor: "var(--text)",
-  },
   '& label': {
-    backgroundColor: "var(--bgSoft)",
     borderRadius: "4px",
     paddingLeft: "5px",
     paddingRight: "5px",
-    color: "var(--text)",
   },
 });
 

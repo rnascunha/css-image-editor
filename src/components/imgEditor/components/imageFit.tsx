@@ -1,10 +1,15 @@
 import { defaultLimits, objectFitOpt } from "../constants";
 import { dense_size } from "./dense";
 
-import { InputStyled } from "@/components/styled/inputStyled";
-import { InputLabelStyled, SelectStyled } from "@/components/styled/selectStyled";
-
-import { FormControl, InputAdornment, MenuItem, Stack } from "@mui/material";
+import {
+  FormControl,
+  InputAdornment,
+  InputLabel,
+  MenuItem,
+  Select,
+  Stack,
+  TextField,
+} from "@mui/material";
 
 interface FitProps {
   fit: (typeof objectFitOpt)[number];
@@ -25,14 +30,20 @@ export default function ImageFitCommand({
   dense,
 }: ImageFitCommandProps) {
   return (
-    <Stack direction="row" spacing={0.25}>
+    <Stack
+      direction="row"
+      spacing={0.25}
+      sx={{
+        width: "100%",
+      }}
+    >
       <FormControl
         sx={{
           flex: 1,
         }}
       >
-        <InputLabelStyled id="image-objectfit-id">Fit Type</InputLabelStyled>
-        <SelectStyled
+        <InputLabel id="image-objectfit-id">Fit Type</InputLabel>
+        <Select
           labelId="image-objectfit-id"
           id="image-objectfit-id"
           size={dense_size(dense)}
@@ -48,9 +59,9 @@ export default function ImageFitCommand({
               {v}
             </MenuItem>
           ))}
-        </SelectStyled>
+        </Select>
       </FormControl>
-      <InputStyled
+      <TextField
         label="X"
         type="number"
         size={dense_size(dense)}
@@ -60,18 +71,7 @@ export default function ImageFitCommand({
           maxWidth: "11ch",
         }}
         InputProps={{
-          endAdornment: (
-            <InputAdornment
-              sx={{
-                "& p": {
-                  color: "var(--text)",
-                },
-              }}
-              position="end"
-            >
-              %
-            </InputAdornment>
-          ),
+          endAdornment: <InputAdornment position="end">%</InputAdornment>,
         }}
         inputProps={{
           ...defaultLimits.position,
@@ -80,7 +80,7 @@ export default function ImageFitCommand({
           update("position", [+ev.target.value, props.position[1]])
         }
       />
-      <InputStyled
+      <TextField
         label="Y"
         type="number"
         size={dense_size(dense)}
@@ -90,18 +90,7 @@ export default function ImageFitCommand({
           maxWidth: "11ch",
         }}
         InputProps={{
-          endAdornment: (
-            <InputAdornment
-              sx={{
-                "& p": {
-                  color: "var(--text)",
-                },
-              }}
-              position="end"
-            >
-              %
-            </InputAdornment>
-          ),
+          endAdornment: <InputAdornment position="end">%</InputAdornment>,
         }}
         inputProps={{
           ...defaultLimits.position,

@@ -57,7 +57,6 @@ export function process_html_node(node: HTMLElement, image: string) {
       
       .container {
         position: relative;
-        outline: 1px var(--text) dashed;
         margin: auto; /* position at middle */
 
         overflow: hidden;

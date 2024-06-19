@@ -2,7 +2,9 @@
 
 import styles from "./imageEditor.module.css";
 
-import { Fragment, useCallback, useEffect, useState } from "react";
+import { Fragment, useCallback, useEffect, useRef, useState } from "react";
+
+// import History from "./history";
 
 import ImgCommands from "./components/commands";
 import type { ConfigProps, ImageReference, Props } from "./types";
@@ -36,16 +38,18 @@ export default function ImageEditor({
   update_props,
   update_config,
 }: ImageEditorProps) {
-  const [props, setProps] = useState<Props>({ ...defaultProps, ...initProps });
   const [imgRef, setImgRef] = useState<ImageReference | null>(null);
+  const [props, setProps] = useState<Props>({ ...defaultProps, ...initProps });
   const [config, setConfig] = useState<ConfigProps>({
     ...defaultConfig,
     ...initConfig,
   });
   const [error, setError] = useState("");
+  // const history = useRef(new History());
 
   useEffect(() => {
     if (update_props) update_props(props);
+    // history.current.add(props);
   }, [props, update_props]);
 
   useEffect(() => {
@@ -75,6 +79,7 @@ export default function ImageEditor({
         case "optimizeImage":
         case "showInfo":
         case "background_transparency_pattern":
+        case "expandOne":
           setConfig((prev) => ({ ...prev, [key]: !prev[key] }));
           break;
         default:
@@ -95,11 +100,22 @@ export default function ImageEditor({
         setConfig={set_config}
         upload_image={upload_image}
         error={error_image}
+        // undo={
+        //   history.current.has_undo()
+        //     ? () => setProps(history.current.undo() as Props)
+        //     : undefined
+        // }
+        // redo={
+        //   history.current.has_redo()
+        //     ? () => setProps(history.current.redo() as Props)
+        //     : undefined
+        // }
       />
       <Box className={styles.commands_image_wrapper}>
         <div className={styles.commands_wrapper}>
           <ImgCommands
             props={props}
+            config={config}
             setProps={setProps}
             imgRef={imgRef}
             dense={config.dense}

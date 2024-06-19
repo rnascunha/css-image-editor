@@ -6,16 +6,17 @@ import { toJpeg, toPng } from "html-to-image";
 
 import { download } from "@/lib/download";
 
+import { download_processed_image } from "../export_html";
 import { ImageReference } from "../types";
 
 import InputWithUnitStyled from "@/components/styled/inputWithUnit";
-import { SliderStyled } from "@/components/styled/sliderStyled";
 
 import {
   Button,
   Checkbox,
   FormControlLabel,
   IconButton,
+  Slider,
   Stack,
   Tooltip,
 } from "@mui/material";
@@ -24,7 +25,6 @@ import PhotoSizeSelectSmallIcon from "@mui/icons-material/PhotoSizeSelectSmall";
 import PhotoIcon from "@mui/icons-material/Photo";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import Spinner from "@/components/spinner/spinner";
-import { download_processed_image } from "../export_html";
 
 enum ImageExtension {
   PNG = ".png",
@@ -126,8 +126,14 @@ export default function SaveImgModal({
   };
 
   return (
-    <Stack className={styles.container} spacing={1}>
-      <h1 style={{ color: "var(--text)" }}>Export</h1>
+    <Stack
+      className={styles.container}
+      spacing={1}
+      sx={{
+        backgroundColor: "background.default",
+      }}
+    >
+      <h1>Export</h1>
       <InputWithUnitStyled
         value={info.name}
         label="File name"
@@ -154,8 +160,8 @@ export default function SaveImgModal({
             color: "grey",
           },
           "& .MuiButtonBase-root.MuiCheckbox-root.Mui-disabled": {
-            color: "grey"
-          }
+            color: "grey",
+          },
         }}
         onChange={(ev) =>
           setInfo({ ...info, bg: (ev.target as HTMLInputElement).checked })
@@ -185,7 +191,7 @@ export default function SaveImgModal({
           units="%"
           onChange={(ev) => setInfo({ ...info, quality: +ev.target.value })}
         />
-        <SliderStyled
+        <Slider
           disabled={info.extension !== ImageExtension.JPEG}
           value={info.quality}
           min={1}
@@ -258,10 +264,7 @@ export default function SaveImgModal({
             reset_value("dimension");
           }}
           sx={{
-            color: "var(--text)",
-            "&.Mui-disabled": {
-              color: "grey",
-            },
+            color: "text.primary",
           }}
         >
           <Tooltip
@@ -332,10 +335,7 @@ export default function SaveImgModal({
             reset_value("scale");
           }}
           sx={{
-            color: "var(--text)",
-            "&.Mui-disabled": {
-              color: "grey",
-            },
+            color: "text.primary",
           }}
         >
           <Tooltip
@@ -359,14 +359,26 @@ export default function SaveImgModal({
           alignSelf: "end",
         }}
       >
-        <Button variant="contained" onClick={close}>
+        <Button
+          variant="outlined"
+          onClick={close}
+          sx={{
+            borderColor: "btn",
+            color: "btn",
+            "&:hover": {
+              borderColor: "btn",
+              color: "btn",
+            },
+          }}
+        >
           Cancel
         </Button>
         <Button
           variant="contained"
           sx={{
-            "&.Mui-disabled": {
-              backgroundColor: "var(--bgSoft)",
+            backgroundColor: "btn",
+            "&:hover": {
+              backgroundColor: "btn",
             },
           }}
           disabled={imageRef === null || info.name === "" || saving}

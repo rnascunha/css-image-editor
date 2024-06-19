@@ -244,4 +244,5 @@ export const defaultConfig: ConfigProps = {
   optimizeImage: true,
   showInfo: true,
   background_transparency_pattern: true,
+  expandOne: false
 } as const;

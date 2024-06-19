@@ -19,7 +19,7 @@ import { dragOver, dragStart, keyboard, wheel, drop_file } from "../events";
 
 import VisuallyHiddenInput from "@/components/styled/hiddenInput";
 
-import { Box, Stack } from "@mui/material";
+import { Box, Stack, Typography } from "@mui/material";
 
 import FileUploadIcon from "@mui/icons-material/FileUpload";
 
@@ -115,13 +115,15 @@ function ImageContainer({
   children,
 }: ImageContainerProps) {
   return (
-    <div
-      // className={styles.container}
+    <Box
       className={`${styles.container} ${
         config.background_transparency_pattern
           ? styles.square_background_pattern
           : ""
       }`}
+      sx={{
+        outlineColor: "text.primary"
+      }}
       style={{
         // Flex will centralize the image when is smaller then the container
         // When image is not 100%x100%
@@ -146,7 +148,7 @@ function ImageContainer({
         {/* Background canvas */}
       </div>
       {children}
-    </div>
+    </Box>
   );
 }
 
@@ -197,7 +199,9 @@ interface NoImageDragDropProps {
 
 function NoImageDragDrop({ upload_image, error }: NoImageDragDropProps) {
   return (
-    <Stack className={styles.no_image} spacing={2}>
+    <Stack sx={{
+      outlineColor: "text.secondary"
+    }} className={styles.no_image} spacing={2}>
       <FileUploadIcon
         sx={{
           fontSize: 100,
@@ -219,14 +223,16 @@ function NoImageDragDrop({ upload_image, error }: NoImageDragDropProps) {
                 });
             }}
           />
-          <b
-            style={{
+          <Typography
+            sx={{
+              display: "inline",
               cursor: "pointer",
-              color: "var(--btn)",
+              color: "btn",
+              fontSize: "xx-large"
             }}
           >
-            Upload
-          </b>
+            <b>Upload</b>
+          </Typography>
         </label>{" "}
         image
       </i>
@@ -377,10 +383,14 @@ export default function ImgContainer({
   }, [props.size, config.showInfo, props.image]);
 
   return (
-    <Box className={styles.outer_container} ref={outer_container}>
-      <div ref={drag_container} className={styles.on_dradding_idle}>
+    <Box className={styles.outer_container} ref={outer_container} sx={{
+      outlineColor: "background.soft"
+    }}>
+      <Box ref={drag_container} className={styles.on_dradding_idle} sx={{
+        backgroundColor: "background.soft"
+      }}>
         <span>Drop image file...</span>
-      </div>
+      </Box>
       {props.image ? (
         <>
           <StatContainer

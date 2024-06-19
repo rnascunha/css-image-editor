@@ -36,15 +36,17 @@ export default function ImageEditorComponent() {
       </div>
     );
 
-  const dProps = debounce(
-    (e) => localStorage.setItem("imageEditorProps", JSON.stringify(e)),
-    1000
-  );
+  const dProps = debounce((e) => {
+    try {
+      localStorage.setItem("imageEditorProps", JSON.stringify(e));
+    } catch (e) { console.warn(e); }
+  }, 1000);
 
-  const dConfig = debounce(
-    (e) => localStorage.setItem("imageEditorConfigProps", JSON.stringify(e)),
-    1000
-  );
+  const dConfig = debounce((e) => {
+    try {
+      localStorage.setItem("imageEditorConfigProps", JSON.stringify(e));
+    } catch (e) { console.warn(e); }
+  }, 1000);
 
   return (
     <ImageEditor

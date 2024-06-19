@@ -1,6 +1,4 @@
 .spinner{
-  fill: var(--textSoft);
-  stroke: var(--textSoft);
   transform-origin: center;
   animation: spinner_Oiah .75s step-end infinite
 }

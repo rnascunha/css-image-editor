@@ -5,16 +5,16 @@ import ImageFitCommand from "./imageFit";
 import { bgRepeatOpt } from "../constants";
 import { dense_size } from "./dense";
 
-import { InputStyled } from "@/components/styled/inputStyled";
-import { SliderStyled } from "@/components/styled/sliderStyled";
-import { InputLabelStyled, SelectStyled } from "@/components/styled/selectStyled";
-
 import {
   Checkbox,
   FormControl,
   FormControlLabel,
+  InputLabel,
   MenuItem,
+  Select,
+  Slider,
   Stack,
+  TextField,
 } from "@mui/material";
 import OpacityIcon from "@mui/icons-material/Opacity";
 
@@ -35,16 +35,13 @@ export default function BackgroundCommand({
   return (
     <Stack spacing={0.5}>
       <Stack direction="row">
-        <InputStyled
+        <TextField
           label="Color"
           type="color"
           size={dense_size(dense)}
           value={props.color}
           sx={{
             "&.MuiFormControl-root.MuiTextField-root": {
-              WebkitFlex: "unset",
-              msFlex: "unset",
-              flex: "unset",
               width: "8ch",
             },
           }}
@@ -58,7 +55,7 @@ export default function BackgroundCommand({
           title="Opacity"
         >
           <OpacityIcon />
-          <SliderStyled
+          <Slider
             aria-label="Opacity Background"
             value={props.opacity}
             size={dense_size(dense)}
@@ -76,9 +73,6 @@ export default function BackgroundCommand({
         <FormControlLabel
           control={
             <Checkbox
-              sx={{
-                color: "var(--text)",
-              }}
               size={dense_size(dense)}
               checked={props.use_image}
             />
@@ -89,8 +83,8 @@ export default function BackgroundCommand({
           }
         />
         <FormControl>
-          <InputLabelStyled id="image-bgrepeat-id">Repeat</InputLabelStyled>
-          <SelectStyled
+          <InputLabel id="image-bgrepeat-id">Repeat</InputLabel>
+          <Select
             labelId="image-bgrepeat-id"
             id="image-bgrepeat-id"
             size={dense_size(dense)}
@@ -110,7 +104,7 @@ export default function BackgroundCommand({
                 {v}
               </MenuItem>
             ))}
-          </SelectStyled>
+          </Select>
         </FormControl>
       </Stack>
       <ImageFitCommand

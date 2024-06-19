@@ -11,7 +11,7 @@ import {
   Droppable,
 } from "@hello-pangea/dnd";
 
-import { IconButton } from "@mui/material";
+import { Box, IconButton } from "@mui/material";
 import DragIndicatorIcon from "@mui/icons-material/DragIndicator";
 
 type Item<T, K, V> = T & { key: K; value: V };
@@ -26,15 +26,16 @@ const getItemStyle = (
   isDragging: boolean,
   draggableStyle?: DraggableStyle
 ) => ({
-  background: isDragging ? "var(--bgSoft)" : "var(--bg)",
-  marginTop: "10px",
+  paddingTop: "10px",
   display: "flex",
   alignItems: "baseline",
+  borderRadius: "8px",
   ...draggableStyle,
 });
 
 const getListStyle = (isDraggingOver: boolean) => ({
-  background: isDraggingOver ? "lightblue" : "unset",
+  borderRadius: "8px",
+  backgroundColor: isDraggingOver ? "background.default" : "background.soft",
 });
 
 function reorder<T>(list: T[], startIndex: number, endIndex: number) {
@@ -62,15 +63,18 @@ export default function DraggableList<T, K, V>({
     <DragDropContext onDragEnd={onDragEnd}>
       <Droppable droppableId="droppable">
         {(provided, snapshot) => (
-          <div
+          <Box
             {...provided.droppableProps}
             ref={provided.innerRef}
-            style={getListStyle(snapshot.isDraggingOver)}
+            sx={getListStyle(snapshot.isDraggingOver)}
           >
             {items.map(({ key, value }, idx) => (
               <Draggable key={idx} draggableId={`${idx}`} index={idx}>
                 {(provided, snapshot) => (
-                  <div
+                  <Box
+                    sx={{
+                      backgroundColor: "background.soft",
+                    }}
                     ref={provided.innerRef}
                     {...provided.draggableProps}
                     style={getItemStyle(
@@ -78,21 +82,16 @@ export default function DraggableList<T, K, V>({
                       provided.draggableProps.style
                     )}
                   >
-                    <IconButton
-                      sx={{
-                        color: "var(--text)",
-                      }}
-                      {...provided.dragHandleProps}
-                    >
+                    <IconButton {...provided.dragHandleProps}>
                       <DragIndicatorIcon />
                     </IconButton>
                     {componentFunc(idx, key, value)}
-                  </div>
+                  </Box>
                 )}
               </Draggable>
             ))}
             {provided.placeholder}
-          </div>
+          </Box>
         )}
       </Droppable>
     </DragDropContext>
