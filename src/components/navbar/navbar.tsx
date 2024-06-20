@@ -1,6 +1,6 @@
 import styles from "./navbar.module.css";
 
-import { AppBar, Box } from "@mui/material";
+import { AppBar, Box, Typography } from "@mui/material";
 import ThemeSwicher from "@/components/theme/themeSwicher";
 
 export default function NavBar() {
@@ -8,9 +8,7 @@ export default function NavBar() {
     <AppBar
       className={styles.container}
       component="nav"
-      sx={{
-        position: "static",
-      }}
+      position="static"
     >
       <Box
         className={styles.content}
@@ -18,6 +16,15 @@ export default function NavBar() {
           backgroundColor: "background.soft",
         }}
       >
+        <Typography
+          sx={{
+            color: "text.primary",
+            fontWeight: "bold",
+            marginLeft: 0.5,
+          }}
+        >
+          CSS Image Editor
+        </Typography>
         <ThemeSwicher sx={{ p: 0.5 }} />
       </Box>
     </AppBar>

@@ -247,10 +247,3 @@ export const defaultConfig: ConfigProps = {
   background_transparency_pattern: true,
   expandOne: false
 } as const;
-
-export enum CSSPropertyList {
-  borderRadius = "border-radius",
-  border = "border",
-  backgroundColor = "background-color"
-};
-export type CSSs = keyof typeof CSSPropertyList;

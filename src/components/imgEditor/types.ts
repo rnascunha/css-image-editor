@@ -1,11 +1,11 @@
 import type {
   Filters,
   Transforms,
-  CSSs,
   objectFitOpt,
   bgRepeatOpt,
   CanvasSizesOptions,
 } from "./constants";
+import { CSSPropertyType } from "./css_list";
 
 export interface FilterValue {
   key: Filters;
@@ -18,7 +18,7 @@ export interface TransformValue {
 }
 
 export interface CSSValue {
-  key: CSSs;
+  key: CSSPropertyType;
   value: string;
 }
 

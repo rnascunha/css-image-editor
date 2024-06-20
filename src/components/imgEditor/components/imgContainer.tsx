@@ -122,7 +122,7 @@ function ImageContainer({
           : ""
       }`}
       sx={{
-        outlineColor: "text.primary"
+        outlineColor: "text.primary",
       }}
       style={{
         // Flex will centralize the image when is smaller then the container
@@ -199,9 +199,13 @@ interface NoImageDragDropProps {
 
 function NoImageDragDrop({ upload_image, error }: NoImageDragDropProps) {
   return (
-    <Stack sx={{
-      outlineColor: "text.secondary"
-    }} className={styles.no_image} spacing={2}>
+    <Stack
+      sx={{
+        outlineColor: "text.secondary",
+      }}
+      className={styles.no_image}
+      spacing={2}
+    >
       <FileUploadIcon
         sx={{
           fontSize: 100,
@@ -228,7 +232,7 @@ function NoImageDragDrop({ upload_image, error }: NoImageDragDropProps) {
               display: "inline",
               cursor: "pointer",
               color: "btn",
-              fontSize: "xx-large"
+              fontSize: "xx-large",
             }}
           >
             <b>Upload</b>
@@ -383,12 +387,20 @@ export default function ImgContainer({
   }, [props.size, config.showInfo, props.image]);
 
   return (
-    <Box className={styles.outer_container} ref={outer_container} sx={{
-      outlineColor: "background.soft"
-    }}>
-      <Box ref={drag_container} className={styles.on_dradding_idle} sx={{
-        backgroundColor: "background.soft"
-      }}>
+    <Box
+      className={styles.outer_container}
+      ref={outer_container}
+      sx={{
+        outlineColor: "background.soft",
+      }}
+    >
+      <Box
+        ref={drag_container}
+        className={styles.on_dradding_idle}
+        sx={{
+          backgroundColor: "background.soft",
+        }}
+      >
         <span>Drop image file...</span>
       </Box>
       {props.image ? (

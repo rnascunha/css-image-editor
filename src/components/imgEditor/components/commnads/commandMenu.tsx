@@ -1,12 +1,9 @@
-import {
-  AccordionDetailsStyled,
-  AccordionStyled,
-  AccordionSummaryStyled,
-} from "@/components/styled/accordionStyled";
+import { AccordionCompact } from "@/components/styled/accordionStyled";
 import { ReactNode, SyntheticEvent } from "react";
 
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { dense_size } from "../dense";
+import { AccordionDetails, AccordionSummary } from "@mui/material";
 
 interface CommandMenuProps {
   id: string;
@@ -28,19 +25,19 @@ export default function CommandMenu({
   children,
 }: CommandMenuProps) {
   return (
-    <AccordionStyled
+    <AccordionCompact
       expanded={panelExpand(`p${id}`)}
       onChange={panelChange(`p${id}`)}
+      size={dense_size(dense)}
     >
-      <AccordionSummaryStyled
+      <AccordionSummary
         expandIcon={<ExpandMoreIcon />}
         aria-controls={`${id}-content`}
         id={`${id}-header`}
-        size={dense_size(dense)}
       >
         {name}
-      </AccordionSummaryStyled>
-      <AccordionDetailsStyled>{children}</AccordionDetailsStyled>
-    </AccordionStyled>
+      </AccordionSummary>
+      <AccordionDetails>{children}</AccordionDetails>
+    </AccordionCompact>
   );
 }

@@ -1,7 +1,5 @@
 import { useState } from "react";
 
-import { CSSPropertyList, CSSs } from "../../constants";
-
 import {
   Autocomplete,
   IconButton,
@@ -12,27 +10,23 @@ import {
 import DeleteIcon from "@mui/icons-material/Delete";
 import { dense_icon_size, dense_size } from "../dense";
 import { CSSValue } from "../../types";
+import { CSSList, CSSPropertyType } from "../../css_list";
 
 interface CSSInputProps {
-  property: CSSs;
+  property: CSSPropertyType;
   value: string;
-  setCSSs(property: CSSs, value?: string): void;
+  setCSSs(property: CSSPropertyType, value?: string): void;
   dense: boolean;
 }
 
-function CSSInput({
-  property,
-  value,
-  setCSSs,
-  dense,
-}: CSSInputProps) {
+function CSSInput({ property, value, setCSSs, dense }: CSSInputProps) {
   return (
     <Stack direction="row">
       <TextField
         label={property}
         fullWidth
         size={dense_size(dense)}
-        error={value === ""}
+        error={!CSS.supports(property, value)}
         value={value}
         onChange={(ev) => setCSSs(property, ev.target.value)}
       />
@@ -45,15 +39,12 @@ function CSSInput({
 
 interface CSSCommandProps {
   csss: CSSValue[];
-  setCSSs(property: CSSs, value?: string): void;
+  setCSSs(property: CSSPropertyType, value?: string): void;
   dense: boolean;
 }
 
-export default function CSSCommand({
-  csss,
-  setCSSs,
-  dense,
-}: CSSCommandProps) {
+export default function CSSCommand({ csss, setCSSs, dense }: CSSCommandProps) {
+  const [value, setValue] = useState<string | null>(null);
   const [searchValue, setSearchValue] = useState("");
 
   return (
@@ -62,7 +53,7 @@ export default function CSSCommand({
         <Autocomplete
           disablePortal
           id="css-property-value-selector"
-          options={Object.keys(CSSPropertyList)}
+          options={Object.keys(CSSList)}
           clearOnEscape
           handleHomeEndKeys
           clearOnBlur
@@ -71,10 +62,14 @@ export default function CSSCommand({
           getOptionDisabled={(opt) =>
             csss.find((o) => o.key === opt) !== undefined
           }
-          onInputChange={(ev, nv) => searchValue && setSearchValue(nv)}
+          onInputChange={(ev, nv) => {
+            setSearchValue(nv);
+          }}
+          value={value}
           onChange={(ev, nv) => {
             if (nv !== null) {
-              setCSSs(nv as CSSs, "");
+              setCSSs(nv as CSSPropertyType, "");
+              setValue(null);
               setSearchValue("");
             }
           }}

@@ -1,4 +1,6 @@
-import { CSSs, filterOptions, transformOptions } from "./constants";
+import { CSSProperties } from "react";
+import { filterOptions, transformOptions } from "./constants";
+import { CSSJSPropertyType, CSSList } from "./css_list";
 import type {
   Props,
   BackgroundProps,
@@ -50,22 +52,12 @@ export function makeBackgroundStyle(props: BackgroundProps, image: string) {
 
 export function makeCSSPropertyStyle(props: CSSValue[]) {
   return props.reduce((acc, { key, value }) => {
-    if (value)
-      acc[key] = value;
+    if (CSS.supports(key, value) && key in CSSList) acc[CSSList[key]] = value;
     return acc;
-  }, {} as Record<CSSs, string>);
+  }, {} as Record<CSSJSPropertyType, string>);
 }
 
 export function makeImageStyle(props: Props) {
-  console.log({
-    objectFit: props.fit,
-    objectPosition: `${props.position[0]}% ${props.position[1]}%`,
-    transform: `translate(${props.translate[0]}px, ${
-      props.translate[1]
-    }px) scale(${props.zoom}) ${makeTrasformsStyle(props.transforms)}`,
-    filter: makeFiltersStyle(props.filters),
-    ...makeCSSPropertyStyle(props.css),
-  });
   return {
     objectFit: props.fit,
     objectPosition: `${props.position[0]}% ${props.position[1]}%`,
@@ -74,5 +66,5 @@ export function makeImageStyle(props: Props) {
     }px) scale(${props.zoom}) ${makeTrasformsStyle(props.transforms)}`,
     filter: makeFiltersStyle(props.filters),
     ...makeCSSPropertyStyle(props.css),
-  };
+  } as CSSProperties;
 }
