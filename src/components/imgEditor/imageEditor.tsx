@@ -2,7 +2,15 @@
 
 import styles from "./imageEditor.module.css";
 
-import { Fragment, useCallback, useEffect, useRef, useState } from "react";
+import {
+  Fragment,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 
 import History from "./history";
 
@@ -19,6 +27,7 @@ import {
 
 import { Alert, Box, IconButton, Snackbar } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
+// import { StatusMode, StatusModeContext, StatusSetModeContext } from "../status/statusContext";
 
 export {
   Props as ImageEditorCommandProps,
@@ -47,8 +56,10 @@ export default function ImageEditor({
     ...initConfig,
   });
   const [error, setError] = useState("");
+  // const {setStatus} = useContext(StatusSetModeContext);
 
   useEffect(() => {
+    // setStatus(StatusMode.WARNING);
     if (update_props) update_props(props);
   }, [props, update_props]);
 
@@ -90,6 +101,22 @@ export default function ImageEditor({
     []
   );
 
+  const redoM = useMemo(
+    () =>
+      history && history.has_redo()
+        ? () => setProps(history.redo() as Props)
+        : undefined,
+    [history]
+  );
+
+  const undoM = useMemo(
+    () =>
+      history && history.has_undo()
+        ? () => setProps(history.undo() as Props)
+        : undefined,
+    [history]
+  );
+
   return (
     <Box className={styles.container}>
       <ImgHeader
@@ -101,16 +128,8 @@ export default function ImageEditor({
         upload_image={upload_image}
         error={error_image}
         has_history={history !== undefined}
-        undo={
-          history && history.has_undo()
-            ? () => setProps(history.undo() as Props)
-            : undefined
-        }
-        redo={
-          history && history.has_redo()
-            ? () => setProps(history.redo() as Props)
-            : undefined
-        }
+        undo={undoM}
+        redo={redoM}
       />
       <Box className={styles.commands_image_wrapper}>
         <div className={styles.commands_wrapper}>

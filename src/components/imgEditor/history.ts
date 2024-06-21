@@ -22,9 +22,9 @@ export default class History {
       console.log("same");
       return;
     }
-    console.log("adding", props);
     this.history_.splice(this.index_, this.history_.length - this.index_, props);
     this.index_ = this.history_.length;
+    console.log(this.history_, this.index_);
   }
 
   undo(){

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import {
   Autocomplete,
@@ -20,10 +20,17 @@ interface CSSInputProps {
 }
 
 function CSSInput({ property, value, setCSSs, dense }: CSSInputProps) {
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    inputRef.current && inputRef.current.focus();
+  }, []);
+
   return (
     <Stack direction="row">
       <TextField
         label={property}
+        inputRef={inputRef}
         fullWidth
         size={dense_size(dense)}
         error={!CSS.supports(property, value)}
@@ -71,6 +78,7 @@ export default function CSSCommand({ csss, setCSSs, dense }: CSSCommandProps) {
               setCSSs(nv as CSSPropertyType, "");
               setValue(null);
               setSearchValue("");
+              (ev.target as HTMLElement).blur();
             }
           }}
           renderInput={(params) => (

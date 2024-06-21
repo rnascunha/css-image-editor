@@ -56,7 +56,8 @@ export default function Error({
       </Stack>
       <Accordion
         sx={{
-          width: "90%",
+          width: "50%",
+          minWidth: "400px"
         }}
       >
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>

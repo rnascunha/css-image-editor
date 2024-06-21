@@ -1,6 +1,14 @@
 import styles from "./imgContainer.module.css";
 
-import { ReactNode, RefObject, useCallback, useEffect, useRef, useState } from "react";
+import {
+  ReactNode,
+  RefObject,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 
 import Image from "next/image";
 
@@ -114,6 +122,11 @@ function ImageContainer({
   containerRef,
   children,
 }: ImageContainerProps) {
+  const computedStyle = useMemo(
+    () => makeBackgroundStyle(props.background, props.image),
+    [props.background, props.image]
+  );
+
   return (
     <Box
       className={`${styles.container} ${
@@ -143,7 +156,7 @@ function ImageContainer({
       {/* Here will be the drawable canvas this can */}
       <div
         className={styles.bg_container}
-        style={makeBackgroundStyle(props.background, props.image)}
+        style={computedStyle}
       >
         {/* Background canvas */}
       </div>
@@ -175,16 +188,18 @@ function ImageShow({
     setD(dimension(props.size.image[0], props.size.image[1], container));
   }, [props.size, container]);
 
+  const computedStyle = useMemo(() => makeImageStyle(props), [props]);
+
   return (
     <Image
       ref={innerRefImg}
       src={props.image}
-      alt="Image"
+      alt={props.image_name}
       className={styles.image}
       fill={d.fill}
       width={d.width}
       height={d.height}
-      style={makeImageStyle(props)}
+      style={computedStyle}
       priority
       unoptimized={!optimizeImage}
       onError={() => error("Error loading image")}
@@ -265,9 +280,10 @@ export default function ImgContainer({
   const container = useRef<HTMLDivElement>(null);
   const image = useRef<HTMLImageElement>(null);
   const drag_container = useRef<HTMLDivElement>(null);
+  const drag = useRef<DragState>(defaultDragState);
+
   const [sizeCanvas, setSizeCanvas] = useState<[number, number]>([0, 0]);
   const [pos, setPos] = useState<[number, number]>([0, 0]);
-  const drag = useRef<DragState>(defaultDragState);
 
   useEffect(() => {
     if (container.current === null || image.current === null) return;
@@ -422,8 +438,11 @@ export default function ImgContainer({
                   props={props}
                   config={config}
                   optimizeImage={config.optimizeImage}
-                  error={error}
                   container={container.current}
+                  error={(msg: string) => {
+                    error(msg);
+                    setProps((prev) => ({ ...prev, image: "" }));
+                  }}
                 />
               </ImageContainer>
             </div>

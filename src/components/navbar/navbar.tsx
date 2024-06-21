@@ -1,15 +1,13 @@
 import styles from "./navbar.module.css";
 
-import { AppBar, Box, Typography } from "@mui/material";
+import { AppBar, Box, IconButton, Stack, Typography } from "@mui/material";
 import ThemeSwicher from "@/components/theme/themeSwicher";
+import StatusIndicator from "../status/status";
+import ClearStorage from "./clear_storate";
 
 export default function NavBar() {
   return (
-    <AppBar
-      className={styles.container}
-      component="nav"
-      position="static"
-    >
+    <AppBar className={styles.container} component="nav" position="static">
       <Box
         className={styles.content}
         sx={{
@@ -25,7 +23,11 @@ export default function NavBar() {
         >
           CSS Image Editor
         </Typography>
-        <ThemeSwicher sx={{ p: 0.5 }} />
+        <Stack direction="row" alignItems="center">
+          <StatusIndicator />
+          <ClearStorage />
+          <ThemeSwicher sx={{ p: 0.5 }} />
+        </Stack>
       </Box>
     </AppBar>
   );
