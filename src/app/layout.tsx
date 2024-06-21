@@ -1,13 +1,17 @@
+import "./globals.css";
+import styles from "./layout.module.css";
+
 import type { Metadata } from "next";
 // import { Inter } from "next/font/google";
 import { Roboto } from "next/font/google";
-import "./globals.css";
 
 import { ThemeContext } from "@/components/themeContext";
 import colorTheme from "@/theme";
 
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v14-appRouter";
-import { CssBaseline } from "@mui/material";
+
+import { Box, CssBaseline } from "@mui/material";
+import NavBar from "@/components/navbar/navbar";
 
 // const inter = Inter({ subsets: ["latin"] });
 const roboto = Roboto({
@@ -32,7 +36,18 @@ export default function RootLayout({
         <AppRouterCacheProvider>
           <ThemeContext theme={colorTheme}>
             <CssBaseline enableColorScheme />
-            {children}
+            <Box
+              className={styles.container}
+              sx={{
+                bgcolor: "background.default",
+                color: "text.primary",
+              }}
+            >
+              <NavBar />
+              <Box sx={{ display: "flex", p: 1, flex: 1, width: "100%" }}>
+                {children}
+              </Box>
+            </Box>
           </ThemeContext>
         </AppRouterCacheProvider>
       </body>

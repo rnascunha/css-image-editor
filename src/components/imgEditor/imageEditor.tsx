@@ -4,7 +4,7 @@ import styles from "./imageEditor.module.css";
 
 import { Fragment, useCallback, useEffect, useRef, useState } from "react";
 
-// import History from "./history";
+import History from "./history";
 
 import ImgCommands from "./components/commands";
 import type { ConfigProps, ImageReference, Props } from "./types";
@@ -20,23 +20,25 @@ import {
 import { Alert, Box, IconButton, Snackbar } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 
+export {
+  Props as ImageEditorCommandProps,
+  ConfigProps as ImageEditorConfigProps,
+};
+
 export interface ImageEditorProps {
   props?: Partial<Props>;
   config?: Partial<ConfigProps>;
   update_props?(props: Props): void;
   update_config?(config: ConfigProps): void;
+  history?: History;
 }
-
-export {
-  Props as ImageEditorCommandProps,
-  ConfigProps as ImageEditorConfigProps,
-};
 
 export default function ImageEditor({
   props: initProps,
   config: initConfig,
   update_props,
   update_config,
+  history,
 }: ImageEditorProps) {
   const [imgRef, setImgRef] = useState<ImageReference | null>(null);
   const [props, setProps] = useState<Props>({ ...defaultProps, ...initProps });
@@ -45,11 +47,9 @@ export default function ImageEditor({
     ...initConfig,
   });
   const [error, setError] = useState("");
-  // const history = useRef(new History());
 
   useEffect(() => {
     if (update_props) update_props(props);
-    // history.current.add(props);
   }, [props, update_props]);
 
   useEffect(() => {
@@ -100,16 +100,17 @@ export default function ImageEditor({
         setConfig={set_config}
         upload_image={upload_image}
         error={error_image}
-        // undo={
-        //   history.current.has_undo()
-        //     ? () => setProps(history.current.undo() as Props)
-        //     : undefined
-        // }
-        // redo={
-        //   history.current.has_redo()
-        //     ? () => setProps(history.current.redo() as Props)
-        //     : undefined
-        // }
+        has_history={history !== undefined}
+        undo={
+          history && history.has_undo()
+            ? () => setProps(history.undo() as Props)
+            : undefined
+        }
+        redo={
+          history && history.has_redo()
+            ? () => setProps(history.redo() as Props)
+            : undefined
+        }
       />
       <Box className={styles.commands_image_wrapper}>
         <div className={styles.commands_wrapper}>

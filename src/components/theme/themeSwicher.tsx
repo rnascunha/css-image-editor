@@ -1,3 +1,5 @@
+"use client";
+
 import { CSSProperties, useContext } from "react";
 
 import { IconButton } from "@mui/material";

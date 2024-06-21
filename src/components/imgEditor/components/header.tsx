@@ -24,7 +24,7 @@ import FlashOnIcon from "@mui/icons-material/FlashOn";
 
 import UndoIcon from "@mui/icons-material/Undo";
 import RedoIcon from "@mui/icons-material/Redo";
-import UnfoldMoreIcon from '@mui/icons-material/UnfoldMore';
+import UnfoldMoreIcon from "@mui/icons-material/UnfoldMore";
 
 export interface ImageHeaderProps {
   image: string;
@@ -37,6 +37,7 @@ export interface ImageHeaderProps {
   ): void;
   upload_image(img: string, img_name: string): void;
   error(img: string): void;
+  has_history: boolean;
   undo?: () => void;
   redo?: () => void;
 }
@@ -49,6 +50,7 @@ export default function ImgHeader({
   upload_image,
   error,
   setConfig,
+  has_history,
   undo,
   redo,
 }: ImageHeaderProps) {
@@ -107,12 +109,16 @@ export default function ImgHeader({
           ),
         }}
       />
-      <IconButton onClick={undo} disabled={undo === undefined}>
-        <UndoIcon sx={{ p: 0.5 }} />
-      </IconButton>
-      <IconButton onClick={redo} disabled={redo === undefined}>
-        <RedoIcon sx={{ p: 0.5 }} />
-      </IconButton>
+      {has_history && (
+        <>
+          <IconButton onClick={undo} disabled={undo === undefined}>
+            <UndoIcon sx={{ p: 0.5 }} />
+          </IconButton>
+          <IconButton onClick={redo} disabled={redo === undefined}>
+            <RedoIcon sx={{ p: 0.5 }} />
+          </IconButton>
+        </>
+      )}
       <MenuOptions
         size={dense_size(config.dense)}
         options={{
@@ -145,9 +151,7 @@ export default function ImgHeader({
           expandOne: {
             name: "Exapand One",
             icon: <UnfoldMoreIcon />,
-            content: (
-              <Switch checked={config.expandOne} />
-            ),
+            content: <Switch checked={config.expandOne} />,
             autoclose: false,
           },
         }}

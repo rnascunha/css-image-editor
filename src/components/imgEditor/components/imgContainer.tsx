@@ -1,6 +1,6 @@
 import styles from "./imgContainer.module.css";
 
-import { ReactNode, RefObject, useEffect, useRef, useState } from "react";
+import { ReactNode, RefObject, useCallback, useEffect, useRef, useState } from "react";
 
 import Image from "next/image";
 

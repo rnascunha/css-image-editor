@@ -1,9 +1,13 @@
-import { AccordionCompact } from "@/components/styled/accordionStyled";
 import { ReactNode, SyntheticEvent } from "react";
 
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { dense_size } from "../dense";
+
+import { AccordionCompact } from "@/components/styled/accordionStyled";
+
 import { AccordionDetails, AccordionSummary } from "@mui/material";
+
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+
 
 interface CommandMenuProps {
   id: string;

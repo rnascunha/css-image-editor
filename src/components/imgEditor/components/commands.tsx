@@ -8,7 +8,7 @@ import type {
   Props,
   SetPropsType,
 } from "../types";
-import { CanvasSizesOptions, defaultProps, CSSs } from "../constants";
+import { CanvasSizesOptions, defaultProps } from "../constants";
 
 import { dense_size } from "./dense";
 
@@ -23,6 +23,7 @@ import { Box, Button, Modal, Stack } from "@mui/material";
 
 import CommandTransform from "./commnads/transform";
 import CommandFilter from "./commnads/filter";
+import { CSSPropertyType } from "../css_list";
 
 interface ImgCommandsProps {
   props: Props;
@@ -56,7 +57,7 @@ export default function ImgCommands({
   const setDimension = (nsize: CanvasSizesOptions) =>
     setProps((prev) => ({ ...prev, size: nsize }));
 
-  const setCSSs = (property: CSSs, value?: string) => {
+  const setCSSs = (property: CSSPropertyType, value?: string) => {
     if (value === undefined) {
       setProps((prev) => ({
         ...prev,
