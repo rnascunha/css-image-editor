@@ -1,8 +1,7 @@
 "use client";
 
 import { Roboto } from "next/font/google";
-import { PaletteMode } from "@mui/material";
-import { amber, deepOrange, grey } from "@mui/material/colors";
+import { Color, PaletteMode, Theme } from "@mui/material";
 
 const roboto = Roboto({
   weight: ["300", "400", "500", "700"],
@@ -47,6 +46,15 @@ const colorTheme = (mode: PaletteMode) => ({
             soft: "#2d2d42",
           },
         }),
+  },
+  components: {
+    MuiCssBaseline: {
+      styleOverrides: (theme: Theme) => `
+      * {
+        scrollbar-color: ${theme.palette.background.paper} ${theme.palette.text.secondary};
+        scrollbar-width: thin;
+    }`,
+    },
   },
 });
 
