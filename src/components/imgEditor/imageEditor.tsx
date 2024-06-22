@@ -2,15 +2,7 @@
 
 import styles from "./imageEditor.module.css";
 
-import {
-  Fragment,
-  useCallback,
-  useContext,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import { Fragment, useCallback, useEffect, useMemo, useState } from "react";
 
 import History from "./history";
 
@@ -27,7 +19,6 @@ import {
 
 import { Alert, Box, IconButton, Snackbar } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-// import { StatusMode, StatusModeContext, StatusSetModeContext } from "../status/statusContext";
 
 export {
   Props as ImageEditorCommandProps,
@@ -56,10 +47,8 @@ export default function ImageEditor({
     ...initConfig,
   });
   const [error, setError] = useState("");
-  // const {setStatus} = useContext(StatusSetModeContext);
 
   useEffect(() => {
-    // setStatus(StatusMode.WARNING);
     if (update_props) update_props(props);
   }, [props, update_props]);
 

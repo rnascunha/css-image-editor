@@ -1,6 +1,7 @@
 import styles from "./imgContainer.module.css";
 
 import {
+  ReactEventHandler,
   ReactNode,
   RefObject,
   useCallback,
@@ -154,10 +155,7 @@ function ImageContainer({
       ref={containerRef}
     >
       {/* Here will be the drawable canvas this can */}
-      <div
-        className={styles.bg_container}
-        style={computedStyle}
-      >
+      <div className={styles.bg_container} style={computedStyle}>
         {/* Background canvas */}
       </div>
       {children}
@@ -174,6 +172,17 @@ interface ImageShowProps {
   error(msg: string): void;
 }
 
+const regExpSupporteImage = new RegExp(
+  `^http[s]?:\/\/.{3}|^data\:(${supported_image_types.join(
+    "|"
+  )})\;base64\,.{10}`
+);
+const imageLoader = ({ src }: { src: string }) => {
+  console.log('loader');
+  if (!regExpSupporteImage.test(src)) return "/nope-not-here.webp";
+  return src;
+};
+
 function ImageShow({
   innerRefImg,
   props,
@@ -189,11 +198,15 @@ function ImageShow({
   }, [props.size, container]);
 
   const computedStyle = useMemo(() => makeImageStyle(props), [props]);
+  const computedImage = useMemo(
+    () => imageLoader({ src: props.image }),
+    [props.image]
+  );
 
   return (
     <Image
       ref={innerRefImg}
-      src={props.image}
+      src={computedImage}
       alt={props.image_name}
       className={styles.image}
       fill={d.fill}
