@@ -42,28 +42,29 @@ export default function ImageEditorComponent() {
           flex: 1,
           alignItems: "center",
           justifyContent: "center",
-          backgroundColor: "rgba(10, 10, 10, 0.3)"
+          backgroundColor: "rgba(10, 10, 10, 0.3)",
         }}
       >
         <Spinner />
       </div>
     );
 
-  const debounceProps = debounce((e: Props) => {
-    try {
-      // history.current.add(e);
-      saveProps(e);
-      setStatus(StatusMode.SUCCESS);
-      console.log("s");
-    } catch (e) {
-      console.warn(e);
-      setStatus(StatusMode.ERROR);
-    }
-  }, 1000);
-
-  const dProps = function (e: Props) {
-    setStatus(StatusMode.WARNING);
-    debounceProps(e);
+  const dProps = {
+    debounce: debounce((e: Props) => {
+      try {
+        // history.current.add(e);
+        saveProps(e);
+        setStatus(StatusMode.SUCCESS);
+        console.log("s");
+      } catch (e) {
+        console.warn(e);
+        setStatus(StatusMode.ERROR);
+      }
+    }, 1000),
+    update_props: function (e: Props) {
+      setStatus(StatusMode.WARNING);
+      this.debounce(e);
+    },
   };
 
   const dConfig = debounce((e: ConfigProps) => {
@@ -78,7 +79,7 @@ export default function ImageEditorComponent() {
     <ImageEditor
       props={props}
       config={config}
-      update_props={dProps}
+      update_props={dProps.update_props.bind(dProps)}
       update_config={dConfig}
       // history={history.current}
     />
